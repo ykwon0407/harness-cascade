@@ -1,0 +1,154 @@
+# Provider/model capabilities, as published by the provider.
+#
+# context_window and max_output_tokens are the vendor's own figures and are only
+# the fallback: limits.discover_model_limits asks the provider at run time and
+# prefers what it answers. Omit either key rather than estimating it -- the code
+# falls back to a value known to work everywhere, which beats a guess.
+#
+# Sources, September 2026: developers.openai.com model pages, Anthropic's
+# models overview, DeepSeek's and Together's model pages, and Pi's model
+# catalog (pi.dev/models) for what Together serves. Together counts input and
+# output against one window; the gateway lowers the output limit to fit.
+#
+# Effort ladders for the Together deployments were measured, not published; see
+# docs/reasoning-effort.md for the per-level reasoning-token counts and for the
+# values each endpoint rejects or silently aliases.
+
+version: 1
+
+providers:
+  openai:
+    protocol: openai-responses
+    models:
+      gpt-6-astra:
+        context_window: 1050000
+        max_output_tokens: 128000
+        efforts: [low, medium, high, xhigh, max]
+      gpt-5.6:
+        context_window: 1050000
+        max_output_tokens: 128000
+        efforts: [none, low, medium, high, xhigh, max]
+      gpt-5.6-sol:
+        context_window: 1050000
+        max_output_tokens: 128000
+        efforts: [none, low, medium, high, xhigh, max]
+      gpt-5.6-terra:
+        context_window: 1050000
+        max_output_tokens: 128000
+        efforts: [none, low, medium, high, xhigh, max]
+      gpt-5.6-luna:
+        context_window: 1050000
+        max_output_tokens: 128000
+        efforts: [none, low, medium, high, xhigh, max]
+      gpt-5.5:
+        context_window: 1050000
+        max_output_tokens: 128000
+        efforts: [none, low, medium, high, xhigh]
+      gpt-5.4:
+        context_window: 1050000
+        max_output_tokens: 128000
+        efforts: [none, low, medium, high, xhigh]
+      gpt-5.1:
+        context_window: 400000
+        max_output_tokens: 128000
+        efforts: [none, low, medium, high]
+      o1:
+        context_window: 200000
+        max_output_tokens: 100000
+        efforts: [low, medium, high]
+      o3:
+        context_window: 200000
+        max_output_tokens: 100000
+        efforts: [low, medium, high]
+      o3-mini:
+        context_window: 200000
+        max_output_tokens: 100000
+        efforts: [low, medium, high]
+      o4-mini:
+        context_window: 200000
+        max_output_tokens: 100000
+        efforts: [low, medium, high]
+
+  anthropic:
+    protocol: anthropic-messages
+    models:
+      claude-fable-5-1:
+        context_window: 1000000
+        max_output_tokens: 128000
+        efforts: [low, medium, high, xhigh, max]
+      claude-fable-5:
+        context_window: 1000000
+        max_output_tokens: 128000
+        efforts: [low, medium, high, xhigh, max]
+      claude-opus-5-5:
+        context_window: 1000000
+        max_output_tokens: 128000
+        efforts: [low, medium, high, xhigh, max]
+      claude-opus-5:
+        context_window: 1000000
+        max_output_tokens: 128000
+        efforts: [low, medium, high, xhigh, max]
+      claude-sonnet-5:
+        context_window: 1000000
+        max_output_tokens: 128000
+        efforts: [low, medium, high, xhigh, max]
+      claude-opus-4-8:
+        context_window: 1000000
+        max_output_tokens: 128000
+        efforts: [low, medium, high, xhigh, max]
+      claude-opus-4-7:
+        context_window: 1000000
+        max_output_tokens: 128000
+        efforts: [low, medium, high, xhigh, max]
+      claude-opus-4-6:
+        context_window: 1000000
+        max_output_tokens: 128000
+        efforts: [low, medium, high, max]
+      claude-sonnet-4-6:
+        context_window: 1000000
+        max_output_tokens: 128000
+        efforts: [low, medium, high, max]
+
+  together:
+    protocol: openai-chat
+    models:
+      openai/gpt-oss-120b:
+        context_window: 131072
+        max_output_tokens: 131072
+        efforts: [low, medium, high]
+      openai/gpt-oss-20b:
+        context_window: 131072
+        max_output_tokens: 131072
+        efforts: [low, medium, high]
+      deepseek-ai/DeepSeek-V4-Pro:
+        context_window: 524288
+        max_output_tokens: 384000
+        efforts: [high, max]
+      deepseek-ai/DeepSeek-V4.1-Flash:
+        # The serverless docs table rounds this to 1,000,000; the API serves
+        # 1,048,576 and the API is what gets enforced.
+        context_window: 1048576
+        max_output_tokens: 384000
+        efforts: [none, low, high, xhigh, max]
+      deepseek-ai/DeepSeek-V4-Flash-0731:
+        context_window: 1048576
+        max_output_tokens: 384000
+        efforts: [none, low, medium, high, xhigh, max]
+      zainhas/dsv41:
+        efforts: [low, high, max]
+      zai-org/GLM-5.3:
+        context_window: 1048575
+        max_output_tokens: 262144
+        efforts: [low, high, max]
+      zai-org/GLM-5.3-Flash:
+        context_window: 1048575
+        max_output_tokens: 400000
+        efforts: [none, low, high, max]
+      Qwen/Qwen3.8-27B:
+        context_window: 262144
+        max_output_tokens: 131072
+        efforts: [none, low, medium, xhigh]
+
+  openai-compatible:
+    protocol: openai-chat
+    models: {}

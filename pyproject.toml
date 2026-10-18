@@ -1,0 +1,33 @@
+[build-system]
+requires = ["hatchling>=1.27"]
+build-backend = "hatchling.build"
+
+[project]
+name = "harness-cascade"
+version = "0.3.0"
+description = "Headless multi-harness handoffs for Claude Code, Pi, and Codex"
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+authors = [{ name = "Yongchan Kwon" }]
+dependencies = [
+  "httpx>=0.27,<1",
+  "PyYAML>=6.0,<7",
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=8.3,<9",
+  "pytest-asyncio>=0.25,<1",
+]
+
+[project.scripts]
+cascade = "harness_cascade.cli:main"
+harness-cascade = "harness_cascade.cli:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/harness_cascade"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
